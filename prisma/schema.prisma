@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  role      UserRole @default(employee)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  meetingRequests  MeetingRequest[]  @relation("OrganizerRequests")
+  bookingAttendees BookingAttendee[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  admin
+  employee
+  ceo
+}
+
+model Room {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String @unique
+  capacity   Int
+  hourlyRate Float    @default(0)
+  location   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  bookings      Booking[]
+  roomEquipment RoomEquipment[]
+
+  @@map("rooms")
+}
+
+model Equipment {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  roomEquipment RoomEquipment[]
+
+  @@map("equipment")
+}
+
+model RoomEquipment {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  roomId      String @db.ObjectId
+  equipmentId String @db.ObjectId
+
+  room      Room?      @relation(fields: [roomId], references: [id])
+  equipment Equipment? @relation(fields: [equipmentId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("roomEquipment")
+}
+
+model MeetingRequest {
+  id                String                 @id @default(auto()) @map("_id") @db.ObjectId
+  organizerId       String?                @db.ObjectId
+  duration          Int
+  requiredEquipment String[]
+  preferredStart    DateTime
+  flexibility       Int
+  priority          MeetingRequestPriority @default(normal)
+  attendeeCount     Int
+  status            MeetingRequestStatus   @default(pending)
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+
+  organizer User?    @relation("OrganizerRequests", fields: [organizerId], references: [id])
+  booking   Booking?
+
+  @@map("meetingRequests")
+}
+
+enum MeetingRequestPriority {
+  low
+  normal
+  high
+  urgent
+}
+
+enum MeetingRequestStatus {
+  pending
+  approved
+  rejected
+}
+
+model Booking {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  meetingRequestId String    @unique @db.ObjectId
+  roomId           String?   @db.ObjectId
+  startAt          DateTime
+  endAt            DateTime
+  status           String    @default("confirmed")
+  checkedInAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  meetingRequest MeetingRequest    @relation(fields: [meetingRequestId], references: [id])
+  room           Room?             @relation(fields: [roomId], references: [id])
+  attendees      BookingAttendee[]
+
+  @@map("bookings")
+}
+
+model BookingAttendee {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  bookingId String  @db.ObjectId
+  userId    String? @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booking Booking? @relation(fields: [bookingId], references: [id])
+  user    User?    @relation(fields: [userId], references: [id])
+
+  @@map("bookingAttendees")
+}
