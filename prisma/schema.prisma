@@ -107,7 +107,7 @@ model Booking {
   roomId           String?   @db.ObjectId
   startAt          DateTime
   endAt            DateTime
-  status           String    @default("confirmed")
+  status           BookingStatus    @default(confirmed)
   checkedInAt      DateTime?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
@@ -117,6 +117,11 @@ model Booking {
   attendees      BookingAttendee[]
 
   @@map("bookings")
+}
+
+enum BookingStatus {
+  confirmed
+  cancelled
 }
 
 model BookingAttendee {
