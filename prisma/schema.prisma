@@ -30,7 +30,7 @@ enum UserRole {
 
 model Room {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String @unique
+  name       String   @unique
   capacity   Int
   hourlyRate Float    @default(0)
   location   String?
@@ -60,8 +60,8 @@ model RoomEquipment {
   roomId      String @db.ObjectId
   equipmentId String @db.ObjectId
 
-  room      Room?      @relation(fields: [roomId], references: [id],onDelete: Cascade)
-  equipment Equipment? @relation(fields: [equipmentId], references: [id],onDelete: Cascade)
+  room      Room?      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  equipment Equipment? @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -77,7 +77,7 @@ model MeetingRequest {
   preferredStart    DateTime
   flexibility       Int
   priority          MeetingRequestPriority @default(normal)
-  attendeeCount     Int
+  attendees         String[]
   status            MeetingRequestStatus   @default(pending)
   createdAt         DateTime               @default(now())
   updatedAt         DateTime               @updatedAt
@@ -102,15 +102,15 @@ enum MeetingRequestStatus {
 }
 
 model Booking {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  meetingRequestId String    @unique @db.ObjectId
-  roomId           String?   @db.ObjectId
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  meetingRequestId String        @unique @db.ObjectId
+  roomId           String?       @db.ObjectId
   startAt          DateTime
   endAt            DateTime
-  status           BookingStatus    @default(confirmed)
+  status           BookingStatus @default(confirmed)
   checkedInAt      DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
   meetingRequest MeetingRequest    @relation(fields: [meetingRequestId], references: [id])
   room           Room?             @relation(fields: [roomId], references: [id])

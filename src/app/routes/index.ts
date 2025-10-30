@@ -6,6 +6,7 @@ import { OtpRoutes } from "../modules/Otp/Otp.routes";
 import { roomRoutes } from "../modules/Room/Room.route";
 import { equipmentRoutes } from "../modules/Equipment/Equipment.route";
 import { roomEquipmentRoutes } from "../modules/RoomEquipment/RoomEquipment.route";
+import { MeetingRequestRoutes } from "../modules/MeetingRequest/MeetingRequest.routes";
 
 const router = express.Router();
 
@@ -37,6 +38,10 @@ const moduleRoutes = [
   {
     path: "/room-equipments",
     route: roomEquipmentRoutes,
+  },
+  {
+    path: "/meeting-requests",
+    route: MeetingRequestRoutes,
   },
 ];
 
