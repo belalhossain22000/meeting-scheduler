@@ -61,9 +61,7 @@ const getAllEquipments = async (params: any, options: any) => {
     where: whereConditions,
   });
 
-  if (!result || result.length === 0) {
-    throw new ApiError(404, "No active users found");
-  }
+ 
   return {
     meta: {
       page,

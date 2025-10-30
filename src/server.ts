@@ -46,15 +46,15 @@ async function main() {
   });
 
   // Handling the server shutdown with SIGTERM and SIGINT
-  process.on("SIGTERM", () => {
-    console.log("SIGTERM signal received. Shutting down gracefully...");
-    exitHandler();
-  });
+  // process.on("SIGTERM", () => {
+  //   console.log("SIGTERM signal received. Shutting down gracefully...");
+  //   exitHandler();
+  // });
 
-  process.on("SIGINT", () => {
-    console.log("SIGINT signal received. Shutting down gracefully...");
-    exitHandler();
-  });
+  // process.on("SIGINT", () => {
+  //   console.log("SIGINT signal received. Shutting down gracefully...");
+  //   exitHandler();
+  // });
 }
 
 main();

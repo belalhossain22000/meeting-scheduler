@@ -19,6 +19,7 @@ const createRoom = async (data: any) => {
 
 const getAllRooms = async (params: any, options: any) => {
   const { page, limit, skip } = paginationHelper.calculatePagination(options);
+
   const { searchTerm, ...filterData } = params;
 
   const andConditions: Prisma.RoomWhereInput[] = [];
@@ -47,6 +48,10 @@ const getAllRooms = async (params: any, options: any) => {
 
   const result = await prisma.room.findMany({
     where: whereConditions,
+    include: {
+      roomEquipment: true,
+    },
+    take: limit,
     skip,
     orderBy:
       options.sortBy && options.sortOrder
@@ -76,7 +81,10 @@ const getAllRooms = async (params: any, options: any) => {
 };
 
 const getSingleRoom = async (id: string) => {
-  const result = await prisma.room.findUnique({ where: { id } });
+  const result = await prisma.room.findUnique({
+    where: { id },
+    include: { roomEquipment: true },
+  });
   if (!result) {
     throw new ApiError(httpStatus.NOT_FOUND, "Room not found..!!");
   }
@@ -97,7 +105,7 @@ const deleteRoom = async (id: string) => {
   if (!existingRoom) {
     throw new ApiError(httpStatus.NOT_FOUND, "Room not found..!!");
   }
-   await prisma.room.delete({ where: { id } });
+  await prisma.room.delete({ where: { id } });
   return null;
 };
 

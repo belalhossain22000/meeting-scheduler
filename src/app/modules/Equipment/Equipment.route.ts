@@ -4,7 +4,7 @@ import { equipmentController } from "./Equipment.controller";
 const router = Router();
 
 // create equipment
-router.post("/create", equipmentController.createEquipment);
+router.post("/", equipmentController.createEquipment);
 
 // get all equipment
 router.get("/", equipmentController.getAllEquipments);

@@ -60,8 +60,8 @@ model RoomEquipment {
   roomId      String @db.ObjectId
   equipmentId String @db.ObjectId
 
-  room      Room?      @relation(fields: [roomId], references: [id])
-  equipment Equipment? @relation(fields: [equipmentId], references: [id])
+  room      Room?      @relation(fields: [roomId], references: [id],onDelete: Cascade)
+  equipment Equipment? @relation(fields: [equipmentId], references: [id],onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

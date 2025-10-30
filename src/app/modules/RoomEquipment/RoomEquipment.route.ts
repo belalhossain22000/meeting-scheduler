@@ -4,7 +4,7 @@ import { roomEquipmentController } from "./RoomEquipment.controller";
 const router = Router();
 
 // create roomEquipment
-router.post("/create", roomEquipmentController.createRoomEquipment);
+router.post("/", roomEquipmentController.createRoomEquipment);
 
 // get all roomEquipment
 router.get("/", roomEquipmentController.getAllRoomEquipments);

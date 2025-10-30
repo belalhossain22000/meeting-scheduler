@@ -4,6 +4,8 @@ import { AuthRoutes } from "../modules/Auth/auth.routes";
 import { ImageRoutes } from "../modules/Image/Image.routes";
 import { OtpRoutes } from "../modules/Otp/Otp.routes";
 import { roomRoutes } from "../modules/Room/Room.route";
+import { equipmentRoutes } from "../modules/Equipment/Equipment.route";
+import { roomEquipmentRoutes } from "../modules/RoomEquipment/RoomEquipment.route";
 
 const router = express.Router();
 
@@ -27,6 +29,14 @@ const moduleRoutes = [
   {
     path: "/rooms",
     route: roomRoutes,
+  },
+  {
+    path: "/equipments",
+    route: equipmentRoutes,
+  },
+  {
+    path: "/room-equipments",
+    route: roomEquipmentRoutes,
   },
 ];
 
