@@ -8,7 +8,6 @@ import { Prisma, User } from "@prisma/client";
 import { userSearchAbleFields } from "./user.costant";
 import config from "../../../config";
 import httpStatus from "http-status";
-import { OtpService } from "../Otp/Otp.service";
 
 // Create a new user in the database.
 const createUserIntoDb = async (payload: User) => {

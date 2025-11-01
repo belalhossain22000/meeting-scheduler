@@ -6,7 +6,6 @@ import * as bcrypt from "bcrypt";
 import ApiError from "../../../errors/ApiErrors";
 
 import httpStatus from "http-status";
-import { OtpService } from "../Otp/Otp.service";
 import emailSender from "../../../shared/emailSernder";
 
 // user login

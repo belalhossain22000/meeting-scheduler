@@ -1,4 +1,4 @@
-import { UserRole, UserStatus } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 
 export interface IUser {
   id?: string;
@@ -9,7 +9,6 @@ export interface IUser {
   role: UserRole;
   profession:string;
   promoCode:string;
-  status: UserStatus;
   isDeleted:boolean;
   createdAt?: Date;
   updatedAt?: Date;
